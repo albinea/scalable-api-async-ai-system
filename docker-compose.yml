@@ -1,0 +1,52 @@
+services:
+
+  web:
+    build: .
+    container_name: react_agent_web
+
+    command: >
+      gunicorn
+      config.wsgi:application
+      --bind 0.0.0.0:8000
+
+    ports:
+      - "8000:8000"
+
+    env_file:
+      - .env
+
+    depends_on:
+      - redis
+
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+
+  worker:
+    build: .
+
+    container_name: react_agent_worker
+
+    command: >
+      celery
+      -A config
+      worker
+      --loglevel=info
+
+    env_file:
+      - .env
+
+    depends_on:
+      - redis
+
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+
+  redis:
+    image: redis:7-alpine
+
+    container_name: react_agent_redis
+
+    ports:
+      - "6379:6379"
