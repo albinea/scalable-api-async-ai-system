@@ -192,10 +192,3 @@ locust -f locustfile.py --host=http://localhost:8000
 
 Then open `http://localhost:8089` to configure and run a swarm (e.g., 20 users over 5 minutes) and confirm the API responds with `202` under load rather than timing out.
 
-## Observability
-
-For deeper visibility into agent tool calls, retries, and latency, consider integrating [LangSmith](https://www.langchain.com/langsmith) tracing instead of relying on manual logging.
-
-## License
-
-Add your license of choice here.
